@@ -863,6 +863,15 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 
 static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
+static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
+    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
+
+static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
+
+static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
+    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
+    const char* function_name);
+
 static CYTHON_INLINE int __Pyx_ArgTypeTest(PyObject *obj, PyTypeObject *type, int none_allowed,
     const char *name, int exact);
 
@@ -883,15 +892,6 @@ static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
 
 static CYTHON_INLINE void __Pyx_ErrRestore(PyObject *type, PyObject *value, PyObject *tb);
 static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyObject **tb);
-
-static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
-    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
-
-static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
-
-static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
-    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
-    const char* function_name);
 
 static void __Pyx_RaiseBufferIndexError(int axis);
 
@@ -1172,6 +1172,7 @@ static char __pyx_k_dtype[] = "dtype";
 static char __pyx_k_float[] = "float";
 static char __pyx_k_numpy[] = "numpy";
 static char __pyx_k_range[] = "range";
+static char __pyx_k_scale[] = "scale";
 static char __pyx_k_zeros[] = "zeros";
 static char __pyx_k_DTYPE1[] = "DTYPE1";
 static char __pyx_k_DTYPE2[] = "DTYPE2";
@@ -1220,6 +1221,7 @@ static PyObject *__pyx_n_s_numpy;
 static PyObject *__pyx_n_s_numpy_to_image;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_sc;
+static PyObject *__pyx_n_s_scale;
 static PyObject *__pyx_n_s_scale_im;
 static PyObject *__pyx_n_s_scaled;
 static PyObject *__pyx_n_s_size;
@@ -1230,7 +1232,7 @@ static PyObject *__pyx_n_s_x;
 static PyObject *__pyx_n_s_x1;
 static PyObject *__pyx_n_s_y;
 static PyObject *__pyx_n_s_zeros;
-static PyObject *__pyx_pf_14numpy_to_image_scale_im(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_data); /* proto */
+static PyObject *__pyx_pf_14numpy_to_image_scale_im(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_data, int __pyx_v_scale); /* proto */
 static PyObject *__pyx_pf_14numpy_to_image_2mat_to_im(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_data, PyArrayObject *__pyx_v_cmap); /* proto */
 static PyObject *__pyx_pf_14numpy_to_image_4indexed_mat_to_im(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_data, PyArrayObject *__pyx_v_cmap, PyArrayObject *__pyx_v_mapping); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
@@ -1251,23 +1253,68 @@ static PyObject *__pyx_codeobj__12;
 /* "numpy_to_image.pyx":14
  * @cython.wraparound(False)
  * 
- * def scale_im(np.ndarray[DTYPE1_t, ndim=1] data):             # <<<<<<<<<<<<<<
+ * def scale_im(np.ndarray[DTYPE1_t, ndim=1] data, int scale):             # <<<<<<<<<<<<<<
  * 
  *     cdef int wid = data.size
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14numpy_to_image_1scale_im(PyObject *__pyx_self, PyObject *__pyx_v_data); /*proto*/
-static PyMethodDef __pyx_mdef_14numpy_to_image_1scale_im = {"scale_im", (PyCFunction)__pyx_pw_14numpy_to_image_1scale_im, METH_O, 0};
-static PyObject *__pyx_pw_14numpy_to_image_1scale_im(PyObject *__pyx_self, PyObject *__pyx_v_data) {
-  CYTHON_UNUSED int __pyx_lineno = 0;
-  CYTHON_UNUSED const char *__pyx_filename = NULL;
-  CYTHON_UNUSED int __pyx_clineno = 0;
+static PyObject *__pyx_pw_14numpy_to_image_1scale_im(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_14numpy_to_image_1scale_im = {"scale_im", (PyCFunction)__pyx_pw_14numpy_to_image_1scale_im, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14numpy_to_image_1scale_im(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyArrayObject *__pyx_v_data = 0;
+  int __pyx_v_scale;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("scale_im (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_data,&__pyx_n_s_scale,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_data)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_scale)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("scale_im", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "scale_im") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_data = ((PyArrayObject *)values[0]);
+    __pyx_v_scale = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_scale == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("scale_im", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("numpy_to_image.scale_im", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_data), __pyx_ptype_5numpy_ndarray, 1, "data", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_r = __pyx_pf_14numpy_to_image_scale_im(__pyx_self, ((PyArrayObject *)__pyx_v_data));
+  __pyx_r = __pyx_pf_14numpy_to_image_scale_im(__pyx_self, __pyx_v_data, __pyx_v_scale);
 
   /* function exit code */
   goto __pyx_L0;
@@ -1278,7 +1325,7 @@ static PyObject *__pyx_pw_14numpy_to_image_1scale_im(PyObject *__pyx_self, PyObj
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14numpy_to_image_scale_im(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_data) {
+static PyObject *__pyx_pf_14numpy_to_image_scale_im(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_data, int __pyx_v_scale) {
   int __pyx_v_wid;
   float __pyx_v_mx;
   float __pyx_v_mn;
@@ -1327,7 +1374,7 @@ static PyObject *__pyx_pf_14numpy_to_image_scale_im(CYTHON_UNUSED PyObject *__py
   __pyx_pybuffernd_data.diminfo[0].strides = __pyx_pybuffernd_data.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_data.diminfo[0].shape = __pyx_pybuffernd_data.rcbuffer->pybuffer.shape[0];
 
   /* "numpy_to_image.pyx":16
- * def scale_im(np.ndarray[DTYPE1_t, ndim=1] data):
+ * def scale_im(np.ndarray[DTYPE1_t, ndim=1] data, int scale):
  * 
  *     cdef int wid = data.size             # <<<<<<<<<<<<<<
  * 
@@ -1435,7 +1482,7 @@ static PyObject *__pyx_pf_14numpy_to_image_scale_im(CYTHON_UNUSED PyObject *__py
  *     cdef float sc
  * 
  *     if mx != mn:             # <<<<<<<<<<<<<<
- *         sc = 255/(mx-mn)
+ *         sc = scale/(mx-mn)
  *     else:
  */
   __pyx_t_7 = ((__pyx_v_mx != __pyx_v_mn) != 0);
@@ -1444,41 +1491,41 @@ static PyObject *__pyx_pf_14numpy_to_image_scale_im(CYTHON_UNUSED PyObject *__py
     /* "numpy_to_image.pyx":34
  * 
  *     if mx != mn:
- *         sc = 255/(mx-mn)             # <<<<<<<<<<<<<<
+ *         sc = scale/(mx-mn)             # <<<<<<<<<<<<<<
  *     else:
- *         sc = 255
+ *         sc = scale
  */
     __pyx_t_11 = (__pyx_v_mx - __pyx_v_mn);
     if (unlikely(__pyx_t_11 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
       {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    __pyx_v_sc = (255.0 / __pyx_t_11);
+    __pyx_v_sc = (__pyx_v_scale / __pyx_t_11);
 
     /* "numpy_to_image.pyx":33
  *     cdef float sc
  * 
  *     if mx != mn:             # <<<<<<<<<<<<<<
- *         sc = 255/(mx-mn)
+ *         sc = scale/(mx-mn)
  *     else:
  */
     goto __pyx_L7;
   }
 
   /* "numpy_to_image.pyx":36
- *         sc = 255/(mx-mn)
+ *         sc = scale/(mx-mn)
  *     else:
- *         sc = 255             # <<<<<<<<<<<<<<
+ *         sc = scale             # <<<<<<<<<<<<<<
  * 
  *     cdef np.ndarray[DTYPE2_t, ndim=1] scaled = np.zeros([wid], dtype=DTYPE2)
  */
   /*else*/ {
-    __pyx_v_sc = 255.0;
+    __pyx_v_sc = __pyx_v_scale;
   }
   __pyx_L7:;
 
   /* "numpy_to_image.pyx":38
- *         sc = 255
+ *         sc = scale
  * 
  *     cdef np.ndarray[DTYPE2_t, ndim=1] scaled = np.zeros([wid], dtype=DTYPE2)             # <<<<<<<<<<<<<<
  * 
@@ -1564,7 +1611,7 @@ static PyObject *__pyx_pf_14numpy_to_image_scale_im(CYTHON_UNUSED PyObject *__py
   /* "numpy_to_image.pyx":14
  * @cython.wraparound(False)
  * 
- * def scale_im(np.ndarray[DTYPE1_t, ndim=1] data):             # <<<<<<<<<<<<<<
+ * def scale_im(np.ndarray[DTYPE1_t, ndim=1] data, int scale):             # <<<<<<<<<<<<<<
  * 
  *     cdef int wid = data.size
  */
@@ -4564,6 +4611,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_numpy_to_image, __pyx_k_numpy_to_image, sizeof(__pyx_k_numpy_to_image), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_sc, __pyx_k_sc, sizeof(__pyx_k_sc), 0, 0, 1, 1},
+  {&__pyx_n_s_scale, __pyx_k_scale, sizeof(__pyx_k_scale), 0, 0, 1, 1},
   {&__pyx_n_s_scale_im, __pyx_k_scale_im, sizeof(__pyx_k_scale_im), 0, 0, 1, 1},
   {&__pyx_n_s_scaled, __pyx_k_scaled, sizeof(__pyx_k_scaled), 0, 0, 1, 1},
   {&__pyx_n_s_size, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
@@ -4658,14 +4706,14 @@ static int __Pyx_InitCachedConstants(void) {
   /* "numpy_to_image.pyx":14
  * @cython.wraparound(False)
  * 
- * def scale_im(np.ndarray[DTYPE1_t, ndim=1] data):             # <<<<<<<<<<<<<<
+ * def scale_im(np.ndarray[DTYPE1_t, ndim=1] data, int scale):             # <<<<<<<<<<<<<<
  * 
  *     cdef int wid = data.size
  */
-  __pyx_tuple__7 = PyTuple_Pack(7, __pyx_n_s_data, __pyx_n_s_wid, __pyx_n_s_mx, __pyx_n_s_mn, __pyx_n_s_x, __pyx_n_s_sc, __pyx_n_s_scaled); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__7 = PyTuple_Pack(8, __pyx_n_s_data, __pyx_n_s_scale, __pyx_n_s_wid, __pyx_n_s_mx, __pyx_n_s_mn, __pyx_n_s_x, __pyx_n_s_sc, __pyx_n_s_scaled); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(1, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_samcooper_PycharmProjects, __pyx_n_s_scale_im, 14, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_samcooper_PycharmProjects, __pyx_n_s_scale_im, 14, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "numpy_to_image.pyx":46
  *     return scaled
@@ -4854,7 +4902,7 @@ PyMODINIT_FUNC PyInit_numpy_to_image(void)
   /* "numpy_to_image.pyx":14
  * @cython.wraparound(False)
  * 
- * def scale_im(np.ndarray[DTYPE1_t, ndim=1] data):             # <<<<<<<<<<<<<<
+ * def scale_im(np.ndarray[DTYPE1_t, ndim=1] data, int scale):             # <<<<<<<<<<<<<<
  * 
  *     cdef int wid = data.size
  */
@@ -4956,6 +5004,145 @@ static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
 #endif
     }
     return result;
+}
+
+static void __Pyx_RaiseArgtupleInvalid(
+    const char* func_name,
+    int exact,
+    Py_ssize_t num_min,
+    Py_ssize_t num_max,
+    Py_ssize_t num_found)
+{
+    Py_ssize_t num_expected;
+    const char *more_or_less;
+    if (num_found < num_min) {
+        num_expected = num_min;
+        more_or_less = "at least";
+    } else {
+        num_expected = num_max;
+        more_or_less = "at most";
+    }
+    if (exact) {
+        more_or_less = "exactly";
+    }
+    PyErr_Format(PyExc_TypeError,
+                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
+                 func_name, more_or_less, num_expected,
+                 (num_expected == 1) ? "" : "s", num_found);
+}
+
+static void __Pyx_RaiseDoubleKeywordsError(
+    const char* func_name,
+    PyObject* kw_name)
+{
+    PyErr_Format(PyExc_TypeError,
+        #if PY_MAJOR_VERSION >= 3
+        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
+        #else
+        "%s() got multiple values for keyword argument '%s'", func_name,
+        PyString_AsString(kw_name));
+        #endif
+}
+
+static int __Pyx_ParseOptionalKeywords(
+    PyObject *kwds,
+    PyObject **argnames[],
+    PyObject *kwds2,
+    PyObject *values[],
+    Py_ssize_t num_pos_args,
+    const char* function_name)
+{
+    PyObject *key = 0, *value = 0;
+    Py_ssize_t pos = 0;
+    PyObject*** name;
+    PyObject*** first_kw_arg = argnames + num_pos_args;
+    while (PyDict_Next(kwds, &pos, &key, &value)) {
+        name = first_kw_arg;
+        while (*name && (**name != key)) name++;
+        if (*name) {
+            values[name-argnames] = value;
+            continue;
+        }
+        name = first_kw_arg;
+        #if PY_MAJOR_VERSION < 3
+        if (likely(PyString_CheckExact(key)) || likely(PyString_Check(key))) {
+            while (*name) {
+                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
+                        && _PyString_Eq(**name, key)) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    if ((**argname == key) || (
+                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
+                             && _PyString_Eq(**argname, key))) {
+                        goto arg_passed_twice;
+                    }
+                    argname++;
+                }
+            }
+        } else
+        #endif
+        if (likely(PyUnicode_Check(key))) {
+            while (*name) {
+                int cmp = (**name == key) ? 0 :
+                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                    (PyUnicode_GET_SIZE(**name) != PyUnicode_GET_SIZE(key)) ? 1 :
+                #endif
+                    PyUnicode_Compare(**name, key);
+                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                if (cmp == 0) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    int cmp = (**argname == key) ? 0 :
+                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                        (PyUnicode_GET_SIZE(**argname) != PyUnicode_GET_SIZE(key)) ? 1 :
+                    #endif
+                        PyUnicode_Compare(**argname, key);
+                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                    if (cmp == 0) goto arg_passed_twice;
+                    argname++;
+                }
+            }
+        } else
+            goto invalid_keyword_type;
+        if (kwds2) {
+            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
+        } else {
+            goto invalid_keyword;
+        }
+    }
+    return 0;
+arg_passed_twice:
+    __Pyx_RaiseDoubleKeywordsError(function_name, key);
+    goto bad;
+invalid_keyword_type:
+    PyErr_Format(PyExc_TypeError,
+        "%.200s() keywords must be strings", function_name);
+    goto bad;
+invalid_keyword:
+    PyErr_Format(PyExc_TypeError,
+    #if PY_MAJOR_VERSION < 3
+        "%.200s() got an unexpected keyword argument '%.200s'",
+        function_name, PyString_AsString(key));
+    #else
+        "%s() got an unexpected keyword argument '%U'",
+        function_name, key);
+    #endif
+bad:
+    return -1;
 }
 
 static void __Pyx_RaiseArgumentTypeInvalid(const char* name, PyObject *obj, PyTypeObject *type) {
@@ -5610,145 +5797,6 @@ static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyOb
 #else
     PyErr_Fetch(type, value, tb);
 #endif
-}
-
-static void __Pyx_RaiseArgtupleInvalid(
-    const char* func_name,
-    int exact,
-    Py_ssize_t num_min,
-    Py_ssize_t num_max,
-    Py_ssize_t num_found)
-{
-    Py_ssize_t num_expected;
-    const char *more_or_less;
-    if (num_found < num_min) {
-        num_expected = num_min;
-        more_or_less = "at least";
-    } else {
-        num_expected = num_max;
-        more_or_less = "at most";
-    }
-    if (exact) {
-        more_or_less = "exactly";
-    }
-    PyErr_Format(PyExc_TypeError,
-                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
-                 func_name, more_or_less, num_expected,
-                 (num_expected == 1) ? "" : "s", num_found);
-}
-
-static void __Pyx_RaiseDoubleKeywordsError(
-    const char* func_name,
-    PyObject* kw_name)
-{
-    PyErr_Format(PyExc_TypeError,
-        #if PY_MAJOR_VERSION >= 3
-        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
-        #else
-        "%s() got multiple values for keyword argument '%s'", func_name,
-        PyString_AsString(kw_name));
-        #endif
-}
-
-static int __Pyx_ParseOptionalKeywords(
-    PyObject *kwds,
-    PyObject **argnames[],
-    PyObject *kwds2,
-    PyObject *values[],
-    Py_ssize_t num_pos_args,
-    const char* function_name)
-{
-    PyObject *key = 0, *value = 0;
-    Py_ssize_t pos = 0;
-    PyObject*** name;
-    PyObject*** first_kw_arg = argnames + num_pos_args;
-    while (PyDict_Next(kwds, &pos, &key, &value)) {
-        name = first_kw_arg;
-        while (*name && (**name != key)) name++;
-        if (*name) {
-            values[name-argnames] = value;
-            continue;
-        }
-        name = first_kw_arg;
-        #if PY_MAJOR_VERSION < 3
-        if (likely(PyString_CheckExact(key)) || likely(PyString_Check(key))) {
-            while (*name) {
-                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
-                        && _PyString_Eq(**name, key)) {
-                    values[name-argnames] = value;
-                    break;
-                }
-                name++;
-            }
-            if (*name) continue;
-            else {
-                PyObject*** argname = argnames;
-                while (argname != first_kw_arg) {
-                    if ((**argname == key) || (
-                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
-                             && _PyString_Eq(**argname, key))) {
-                        goto arg_passed_twice;
-                    }
-                    argname++;
-                }
-            }
-        } else
-        #endif
-        if (likely(PyUnicode_Check(key))) {
-            while (*name) {
-                int cmp = (**name == key) ? 0 :
-                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
-                    (PyUnicode_GET_SIZE(**name) != PyUnicode_GET_SIZE(key)) ? 1 :
-                #endif
-                    PyUnicode_Compare(**name, key);
-                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
-                if (cmp == 0) {
-                    values[name-argnames] = value;
-                    break;
-                }
-                name++;
-            }
-            if (*name) continue;
-            else {
-                PyObject*** argname = argnames;
-                while (argname != first_kw_arg) {
-                    int cmp = (**argname == key) ? 0 :
-                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
-                        (PyUnicode_GET_SIZE(**argname) != PyUnicode_GET_SIZE(key)) ? 1 :
-                    #endif
-                        PyUnicode_Compare(**argname, key);
-                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
-                    if (cmp == 0) goto arg_passed_twice;
-                    argname++;
-                }
-            }
-        } else
-            goto invalid_keyword_type;
-        if (kwds2) {
-            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
-        } else {
-            goto invalid_keyword;
-        }
-    }
-    return 0;
-arg_passed_twice:
-    __Pyx_RaiseDoubleKeywordsError(function_name, key);
-    goto bad;
-invalid_keyword_type:
-    PyErr_Format(PyExc_TypeError,
-        "%.200s() keywords must be strings", function_name);
-    goto bad;
-invalid_keyword:
-    PyErr_Format(PyExc_TypeError,
-    #if PY_MAJOR_VERSION < 3
-        "%.200s() got an unexpected keyword argument '%.200s'",
-        function_name, PyString_AsString(key));
-    #else
-        "%s() got an unexpected keyword argument '%U'",
-        function_name, key);
-    #endif
-bad:
-    return -1;
 }
 
 static void __Pyx_RaiseBufferIndexError(int axis) {

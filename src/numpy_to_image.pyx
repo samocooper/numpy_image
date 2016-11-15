@@ -11,7 +11,7 @@ ctypedef np.int_t DTYPE2_t
 @cython.boundscheck(False)
 @cython.wraparound(False)
 
-def scale_im(np.ndarray[DTYPE1_t, ndim=1] data):
+def scale_im(np.ndarray[DTYPE1_t, ndim=1] data, int scale):
 
     cdef int wid = data.size
 
@@ -31,9 +31,9 @@ def scale_im(np.ndarray[DTYPE1_t, ndim=1] data):
     cdef float sc
 
     if mx != mn:
-        sc = 255/(mx-mn)
+        sc = scale/(mx-mn)
     else:
-        sc = 255
+        sc = scale
 
     cdef np.ndarray[DTYPE2_t, ndim=1] scaled = np.zeros([wid], dtype=DTYPE2)
 

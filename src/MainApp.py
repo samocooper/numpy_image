@@ -26,8 +26,11 @@ class TestWidget(Widget):
         self.m_layout = FloatLayout(size=(Window.width, Window.height))
 
         with self.canvas:
+
             self.add_widget(self.m_layout)
             self.m_layout.add_widget(im_d)
+
+            im_d.update_im(imtest1)
 
     def show_im_mapped(self):
 
