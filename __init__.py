@@ -1,11 +1,11 @@
 import numpy as np
-import numpy_to_image
+import numpy_image
 
 from kivy.graphics import Rectangle
 from kivy.graphics.texture import Texture
 from kivy.uix.widget import Widget
 
-from src import cmaps
+import cmaps
 
 
 class ImDisplay(Widget):
@@ -27,11 +27,11 @@ class ImDisplay(Widget):
 
 
         if scale:
-            im = numpy_to_image.scale_im(m, len(self.cmap)//3 - 1)  # Scale image between 0 and 255
+            im = numpy_image.scale_im(m, len(self.cmap) // 3 - 1)  # Scale image between 0 and 255
         else:
             im = m.astype(int)
 
-        im = numpy_to_image.mat_to_im(im, self.cmap)  # Map scaled image to colormap
+        im = numpy_image.mat_to_im(im, self.cmap)  # Map scaled image to colormap
         arr = np.asarray(im, dtype=np.uint8)
         self.texture.blit_buffer(arr.tostring(), colorfmt='rgb', bufferfmt='ubyte')
 
@@ -45,11 +45,11 @@ class ImDisplay(Widget):
         m = mat.flatten()
         m = m.astype(float)
         if self.scale:
-            im = numpy_to_image.scale_im(m, len(self.cmap)//3 - 1)
+            im = numpy_image.scale_im(m, len(self.cmap) // 3 - 1)
         else:
             im = m.astype(int)
 
-        im = numpy_to_image.mat_to_im(im, self.cmap)
+        im = numpy_image.mat_to_im(im, self.cmap)
 
         arr = np.asarray(im, dtype=np.uint8)
         self.texture.blit_buffer(arr.tostring(), colorfmt='rgb', bufferfmt='ubyte')
@@ -87,7 +87,7 @@ class IndexedDisplay(Widget):
     def update_im(self, mat):
 
         m = mat.flatten()
-        im = numpy_to_image.indexed_color_map(m.astype(int), self.cmap, self.mapping)
+        im = __init__.indexed_color_map(m.astype(int), self.cmap, self.mapping)
 
         arr = np.asarray(im, dtype=np.uint8)
         self.texture.blit_buffer(arr.tostring(), colorfmt='rgb', bufferfmt='ubyte')
