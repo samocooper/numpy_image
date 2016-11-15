@@ -16,7 +16,8 @@ This is a module for diplaying numpy matrices on a kivy canvas. There are two cl
   This class requires an additional input that displays images where many values in the numpy matrix need to point to the same color
   
   The mapping numpy array must be the length of the greatest value in the image that requires indexing, each value must correspond to a color e.g. in the following example with a three color RGB colormap.
-  
+ 
+```python
   color_map = [[.1 .1 .9]
                [.1 .9 .1]
                [.9 .1 .1]]
@@ -25,7 +26,7 @@ This is a module for diplaying numpy matrices on a kivy canvas. There are two cl
          4 5 6
          7 8 9]
  
-  map = [1 2 3 1 2 3 1 2 3]
+  mapping = [1 2 3 1 2 3 1 2 3]
   
   mapped_Im = [ 1 2 3
                 1 2 3
@@ -34,6 +35,6 @@ This is a module for diplaying numpy matrices on a kivy canvas. There are two cl
   displayed_Im = [[.1 .1 .9] [.1 .9 .1] [.9 .1 .1]
                   [.1 .1 .9] [.1 .9 .1] [.9 .1 .1]
                   [.1 .1 .9] [.1 .9 .1] [.9 .1 .1]]
-                  
 
+```
 
