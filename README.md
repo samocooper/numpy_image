@@ -15,14 +15,18 @@ The module contains two classes.
 
 1. ImDisplay:
 
-  This take a numpy matrix scales it to the number of colors in an RGB colormap (len(cmap) divided by 3). 
-  After scaling the matrix is mapped to an RGB format and then displayed as the texture of a kivy rectangle.
+   ImDisplay.create_im(image, color_map,  scale=True)
+
+  This takes a numpy 2D array scales it to the number of colors in an RGB colormap (len(cmap) divided by 3). After scaling the matrix is mapped to an RGB format and then displayed as the texture of a kivy rectangle. The option of not scaling the image is available though values in the image must not exceed the number of colours available. An example of this function and test image are provided.
   
-  The option of not scaling the image is available though values in the image must not exceed the number of colours available
+     ImDisplay.update_im( image, color_map, mapping)
+     
+  Updates the image on the canvas, much faster execution time than reloading.
   
-  An example of this function and test image are provided.
   
 2. IndexedDisplay
+
+     IndexedDisplay.create_im(image, color_map,  scale=True)
 
   This class requires an additional input that displays images where many values in the numpy matrix need to point to the same color
   
@@ -33,19 +37,19 @@ The module contains two classes.
                [.1 .9 .1]
                [.9 .1 .1]]
   
-  Im = [ 1 2 3
-         4 5 6
-         7 8 9]
+  image = [ 1 2 3
+            4 5 6
+            7 8 9]
  
   mapping = [1 2 3 1 2 3 1 2 3]
   
-  mapped_Im = [ 1 2 3
-                1 2 3
-                1 2 3]
+  mapped_image = [ 1 2 3
+                   1 2 3
+                   1 2 3]
 
-  displayed_Im = [[.1 .1 .9] [.1 .9 .1] [.9 .1 .1]
-                  [.1 .1 .9] [.1 .9 .1] [.9 .1 .1]
-                  [.1 .1 .9] [.1 .9 .1] [.9 .1 .1]]
+  displayed_image = [[.1 .1 .9] [.1 .9 .1] [.9 .1 .1]
+                    [.1 .1 .9] [.1 .9 .1] [.9 .1 .1]
+                    [.1 .1 .9] [.1 .9 .1] [.9 .1 .1]]
 
 ```
 
