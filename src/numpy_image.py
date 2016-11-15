@@ -25,8 +25,9 @@ class ImDisplay(Widget):
         m = mat.flatten()
         m = m.astype(float)  # Type as float, greater precision when scaling benchmarks faster than int
 
+
         if scale:
-            im = numpy_to_image.scale_im(m, 255)  # Scale image between 0 and 255
+            im = numpy_to_image.scale_im(m, len(self.cmap)//3 - 1)  # Scale image between 0 and 255
         else:
             im = m.astype(int)
 
@@ -43,9 +44,8 @@ class ImDisplay(Widget):
 
         m = mat.flatten()
         m = m.astype(float)
-
         if self.scale:
-            im = numpy_to_image.scale_im(m, 255)
+            im = numpy_to_image.scale_im(m, len(self.cmap)//3 - 1)
         else:
             im = m.astype(int)
 
