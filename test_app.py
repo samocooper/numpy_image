@@ -5,7 +5,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.widget import Widget
 from skimage.external import tifffile
 
-from numpy_image import ImDisplay, IndexedDisplay
+from src.image_widget import ImDisplay, IndexedDisplay
 
 class TestWidget(Widget):
 
