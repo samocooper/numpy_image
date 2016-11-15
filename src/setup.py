@@ -7,4 +7,3 @@ setup(
   ext_modules = cythonize("numpy_to_image.pyx"),
   include_dirs=[numpy.get_include()]
 )
-
