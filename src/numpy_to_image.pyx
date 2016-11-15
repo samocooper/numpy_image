@@ -35,11 +35,11 @@ def scale_im(np.ndarray[DTYPE1_t, ndim=1] data, int scale):
     else:
         sc = scale
 
-    cdef np.ndarray[DTYPE2_t, ndim=1] scaled = np.zeros([wid], dtype=DTYPE2)
+    cdef np.ndarray[DTYPE1_t, ndim=1] scaled = np.zeros([wid], dtype=DTYPE1)
 
     for x in range(wid):
 
-        scaled[x] = int((data[x]-mn)*sc);
+        scaled[x] = (data[x]-mn)*sc;
 
     return scaled
 

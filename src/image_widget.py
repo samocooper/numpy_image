@@ -27,8 +27,9 @@ class ImDisplay(Widget):
         if scale:
             im = numpy_to_image.scale_im(m, len(self.cmap) // 3 - 1)  # Scale image between 0 and 255
         else:
-            im = m.astype(int)
+            im = m
 
+        im = im.astype(int)
         im = numpy_to_image.mat_to_im(im, self.cmap)  # Map scaled image to colormap
         arr = np.asarray(im, dtype=np.uint8)
         self.texture.blit_buffer(arr.tostring(), colorfmt='rgb', bufferfmt='ubyte')
@@ -42,11 +43,13 @@ class ImDisplay(Widget):
 
         m = mat.flatten()
         m = m.astype(float)
+
         if self.scale:
             im = numpy_to_image.scale_im(m, len(self.cmap) // 3 - 1)
         else:
-            im = m.astype(int)
+            im = m
 
+        im = im.astype(int)
         im = numpy_to_image.mat_to_im(im, self.cmap)
 
         arr = np.asarray(im, dtype=np.uint8)
