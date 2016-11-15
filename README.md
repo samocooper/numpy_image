@@ -1,6 +1,17 @@
 # numpy_image
 
-This is a module for diplaying numpy matrices on a kivy canvas. There are two classes.
+This is a module for diplaying numpy matrices as widgets on a kivy canvas. 
+
+Cython code is used for essential speedup. Run 
+
+  python setup.py build_ext --inplace
+
+or
+   python3 setup.py build_ext --inplace
+   
+in the src directory to build c library
+
+The module contains two classes.
 
 1. ImDisplay:
 
