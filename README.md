@@ -1,6 +1,6 @@
 # numpy_image
 
-This is a module for diplaying numpy matrices as widgets on a kivy canvas. 
+This is a module for displaying numpy matrices as widgets on a kivy canvas. 
 
 Cython code is used for essential speedup. Run 
 
